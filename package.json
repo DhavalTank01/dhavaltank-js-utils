@@ -1,0 +1,64 @@
+{
+  "name": "dhavaltank-js-utils",
+  "version": "0.0.1",
+  "description": "JavaScript Utility Package which is a collection of functions i use regularly and don't want to write again",
+  "main": "./dist/index.ts",
+  "module": "./dist/index.mjs",
+  "type": "module",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [
+    "utils",
+    "utils-file",
+    "js-utils",
+    "javascript",
+    "dhaval",
+    "dhavaltank",
+    "dhavaltank-js-utils",
+    "capitalizeFirstLetter",
+    "titleCase",
+    "getInitials",
+    "getTruncateDescription",
+    "compareArrays",
+    "generateOTPWithLength",
+    "generateRandomPassword",
+    "slugify",
+    "setLocalStorage",
+    "getLocalStorage",
+    "removeLocalStorage",
+    "clearLocalStorage",
+    "getGreeting",
+    "validateText",
+    "validateEmail",
+    "validatePassword",
+    "validateMobileNumber",
+    "formatCurrency",
+    "CurrencyCode",
+    "removeDuplicatesFromArray",
+    "sortArrayByMode",
+    "reverseString",
+    "isObjectValuesEmpty",
+    "checkNotNullAndNotEmpty",
+    "handleNaN",
+    "isFalsy",
+    "isTruthy",
+    "groupBy"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DhavalTank01/dhavaltank-js-utils.git"
+  },
+  "author": "Dhaval Tank",
+  "bugs": {
+    "url": "https://github.com/DhavalTank01/dhavaltank-js-utils/issues"
+  },
+  "homepage": "https://github.com/DhavalTank01/dhavaltank-js-utils#readme",
+  "devDependencies": {
+    "prop-types": "^15.8.1",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5"
+  }
+}
