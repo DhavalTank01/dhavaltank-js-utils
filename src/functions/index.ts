@@ -1,4 +1,4 @@
-import { AnyType, ArrayType, BooleanType, NullableString, NumberType, StringType } from "../types";
+import { AnyType, ArrayType, BooleanType, NullableString, NumberType, ObjectType, StringType } from "../types";
 
 export const capitalizeFirstLetter = (str: NullableString): NullableString => {
     try {
@@ -11,12 +11,11 @@ export const capitalizeFirstLetter = (str: NullableString): NullableString => {
     }
 }
 
-export const titleCase = (str: NullableString, key: NullableString): NullableString => {
+export const titleCase = (str: NullableString): NullableString => {
     try {
         if (!str)
             return null;
-        const text: string = str.replace(/_/g, " ").split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-        return key === "And" ? text.replace("And", "&") : text;
+        return str.replace(/_/g, " ").split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     } catch (error) {
         console.error(error)
         return null;
@@ -26,7 +25,7 @@ export const titleCase = (str: NullableString, key: NullableString): NullableStr
 export const getInitials = (name: NullableString) => {
     try {
         if (typeof name !== 'string' || name.trim() === '') return "?";
-        const words = name.trim().split(" ").map(latter => latter[0].toUpperCase()).join("");
+        const words = name.trim().split(" ").filter(value => !!value)?.map((latter) => latter[0]?.toUpperCase()).join("");
         return words.length > 1 ? words[0] + words[words.length - 1] : words;
     } catch (error) {
         console.error(error);
@@ -44,7 +43,9 @@ export const getTruncateDescription = (text: NullableString, maxLength = 10) => 
 
 export const compareArrays = <T>(arr1: ArrayType<T>, arr2: ArrayType<T>): boolean | null => {
     try {
-        return arr1.length === arr2.length && arr1.slice().sort().every((value, index) => value === arr2.slice().sort()[index]);
+        let array1 = arr1?.flat(10)?.slice()?.sort();
+        let array2 = arr2?.flat(10)?.slice()?.sort();
+        return array1?.length === array2?.length && array1?.every((value, index) => value === array2[index]);
     } catch (error) {
         console.error(error);
         return null;
@@ -87,7 +88,7 @@ export const generateRandomPassword = (length = 8) => {
 
 export const slugify = (string: StringType, separator = "-") => {
     try {
-        return string.trim() ? string.toString().toLowerCase().trim().replace(/\s+/g, separator).replace(/[^\w\-]+/g, "").replace(/\_/g, separator).replace(/\-\-+/g, separator).replace(/\-$/g, "") : ""
+        return string?.trim()?.length > 0 ? string?.toString()?.toLowerCase()?.trim().replace(/\s+/g, separator)?.replace(/[^\w\-]+/g, "")?.replace(/\_/g, separator)?.replace(/\-\-+/g, separator)?.replace(/\-$/g, "") : ""
     } catch (error) {
         console.error(error)
         return null;
@@ -156,13 +157,13 @@ export const getGreeting = () => {
 
 export const validateText = (value: NullableString, errorMessage = null) => {
     try {
-        if (!value?.trim())
+        if (!value)
             return { isError: true, errorMessage: (errorMessage || "This field must not be empty.") };
         const regex = /^[a-zA-Z ]+$/;
         if (!regex.test(value?.trim())) {
             return { isError: true, errorMessage: (errorMessage || "Invalid input") };
         }
-        return { isError: false, errorMessage: "Valid input" };
+        return { isError: false, errorMessage: null };
     } catch (error) {
         console.error(error);
         return { isError: true, message: "Something went wrong." };
@@ -177,7 +178,7 @@ export const validateEmail = (email: NullableString, errorMessage = null) => {
         if (!re.test(email?.trim())) {
             return { isError: true, errorMessage: (errorMessage || "Invalid email") };
         }
-        return { isError: false, errorMessage: "Valid email" };
+        return { isError: false, errorMessage: null };
     } catch (error) {
         console.error(error);
         return { isError: true, message: "Something went wrong." };
@@ -192,7 +193,7 @@ export const validatePassword = (password: NullableString, errorMessage = null) 
         if (!regex.test(password?.trim())) {
             return { isError: true, errorMessage: (errorMessage || "Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one symbol.") };
         }
-        return { isError: false, errorMessage: "Valid password" };
+        return { isError: false, errorMessage: null };
     } catch (error) {
         console.error(error);
         return { isError: true, message: "Something went wrong." };
@@ -207,13 +208,14 @@ export const validateMobileNumber = (value: NullableString, errorMessage = null)
         if (!regex.test(value?.trim())) {
             return { isError: true, errorMessage: (errorMessage || "Invalid mobile number") };
         }
-        return { isError: false, errorMessage: "Valid mobile number" };
+        return { isError: false, errorMessage: null };
     } catch (error) {
         console.error(error);
         return { isError: true, message: "Something went wrong." };
     }
 };
-const CurrencyCode = {
+
+export const CURRENCYCODE = {
     USD: 'USD',
     EUR: 'EUR',
     GBP: 'GBP',
@@ -227,16 +229,16 @@ const CurrencyCode = {
 
 export const formatCurrency = (
     number: NumberType,
-    currencyCode = CurrencyCode.USD,
+    currencyCode = CURRENCYCODE.USD,
     minimumFractionDigits = 2,
     maximumFractionDigits = 2
 ) => {
     try {
         if (!number) return null;
 
-        if (!Object.values(CurrencyCode).includes(currencyCode)) {
+        if (!Object.values(CURRENCYCODE).includes(currencyCode)) {
             console.warn(`Invalid currency code "${currencyCode}". Defaulting to USD.`);
-            currencyCode = CurrencyCode.USD;
+            currencyCode = CURRENCYCODE.USD;
         }
 
         return number?.toLocaleString('en-US', {
@@ -260,21 +262,51 @@ export const removeDuplicatesFromArray = (array: AnyType) => {
     }
 };
 
-export const sortArrayByMode = (array: AnyType, mode = 'asc', key = null) => {
+export function getValueByKey(obj: AnyType, key: StringType) {
+    if (obj && typeof obj === 'object' && key in obj) {
+        return obj[key];
+    }
+    return null;
+}
+
+export const sortArrayByDirection = (array: AnyType, direction = 'asc', key = "") => {
     try {
         if (!array || array.length === 0)
             return null;
 
-        if (mode !== 'asc' && mode !== 'desc') {
-            console.error('Invalid sorting mode. Please use "asc" or "desc".');
+        if (direction !== 'asc' && direction !== 'desc') {
+            console.error('Invalid sorting direction. Please use "asc" or "desc".');
             return array;
         }
 
-        return [...array].sort((a, b) => {
-            const aValue = key !== null ? a[key] : a;
-            const bValue = key !== null ? b[key] : b;
+        if (!key) {
+            return [...array].sort((valueA, valueB) => {
+                if (typeof valueA === 'string' && typeof valueB === 'string') {
+                    return direction === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+                } else if (typeof valueA === 'number' && typeof valueB === 'number') {
+                    return direction === 'asc' ? valueA - valueB : valueB - valueA;
+                } else if (valueA instanceof Date && valueB instanceof Date) {
+                    return direction === 'asc' ? valueA.getTime() - valueB.getTime() : valueB.getTime() - valueA.getTime();
+                } else {
+                    return 0;
+                }
+            })
+        }
 
-            return mode === 'asc' ? aValue - bValue : bValue - aValue;
+        let Array = [...array];
+        return Array.sort((a, b) => {
+            const valueA = getValueByKey(a, key);
+            const valueB = getValueByKey(b, key);
+
+            if (typeof valueA === 'string' && typeof valueB === 'string') {
+                return direction === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+            } else if (typeof valueA === 'number' && typeof valueB === 'number') {
+                return direction === 'asc' ? valueA - valueB : valueB - valueA;
+            } else if (valueA instanceof Date && valueB instanceof Date) {
+                return direction === 'asc' ? valueA.getTime() - valueB.getTime() : valueB.getTime() - valueA.getTime();
+            } else {
+                return 0;
+            }
         });
     } catch (error) {
         console.error(error);
@@ -286,7 +318,7 @@ export const reverseString = (str: NullableString) => {
     try {
         if (!str)
             return null;
-        return str?.split('').reverse().join('');
+        return str?.split('')?.reverse()?.join('');
     } catch (error) {
         console.error(error);
         return null;
@@ -301,7 +333,7 @@ export const isObjectValuesEmpty = (object: AnyType) => {
         return acc;
     }, {});
 
-    return Object.keys(errors).length > 0;
+    return errors && Object.keys(errors).length > 0;
 };
 
 export const checkNotNullAndNotEmpty = (value: AnyType) => {
