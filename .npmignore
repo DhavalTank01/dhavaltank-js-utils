@@ -1,5 +1,7 @@
-node_modules
 src
+node_modules
 
+tsconfig.json
+tsup.config.ts
 package.json
 package-lock.json

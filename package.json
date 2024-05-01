@@ -1,8 +1,8 @@
 {
   "name": "dhavaltank-js-utils",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "JavaScript Utility Package which is a collection of functions i use regularly and don't want to write again",
-  "main": "./dist/index.ts",
+  "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "type": "module",
   "types": "./dist/index.d.ts",

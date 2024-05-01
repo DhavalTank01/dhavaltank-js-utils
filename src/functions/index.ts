@@ -1,4 +1,4 @@
-import { AnyType, ArrayType, BooleanType, NullableString, NumberType, ObjectType, StringType } from "../types";
+import { AnyType, ArrayType, BooleanType, NullableString, NumberType, StringType } from "../types";
 
 export const capitalizeFirstLetter = (str: NullableString): NullableString => {
     try {
