@@ -369,6 +369,144 @@ export const isTruthy = (value: BooleanType) => {
     return !!value;
 }
 
+// capitalizeEveryWord - Capitalizes the first letter of each word in a string
+export const capitalizeEveryWord = (str: StringType): StringType => {
+    try {
+        if (!str) return "" as StringType;
+        return str.trim().split(/\s+/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    } catch (error) {
+        console.error(error);
+        return "" as StringType;
+    }
+};
+
+// camelCase - Converts a string to camelCase
+export const camelCase = (str: StringType): StringType => {
+    try {
+        if (!str) return "" as StringType;
+        return str
+            .trim()
+            .replace(/[-_\s]/g, ' ')
+            .split(/\s+/)
+            .map((word, index) => index === 0 ? word.toLowerCase() : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join('');
+    } catch (error) {
+        console.error(error);
+        return "" as StringType;
+    }
+};
+
+// pascalCase - Converts a string to PascalCase
+export const pascalCase = (str: StringType): StringType => {
+    try {
+        if (!str) return "" as StringType;
+        return str
+            .trim()
+            .replace(/[-_\s]/g, ' ')
+            .split(/\s+/)
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join('');
+    } catch (error) {
+        console.error(error);
+        return "" as StringType;
+    }
+};
+
+// truncate - Truncates a string and appends ellipsis if it exceeds maxLength
+export const truncate = (str: StringType, maxLength = 20): StringType => {
+    try {
+        if (!str) return "" as StringType;
+        if (str.length <= maxLength) return str;
+        return str.substring(0, maxLength).trim() + "...";
+    } catch (error) {
+        console.error(error);
+        return "" as StringType;
+    }
+};
+
+// formatDate - Formats a date object to a readable string
+export const formatDate = (date: Date | string | number, format = "YYYY-MM-DD"): StringType => {
+    try {
+        const d = new Date(date);
+        if (isNaN(d.getTime())) return "" as StringType;
+
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        const hours = String(d.getHours()).padStart(2, '0');
+        const minutes = String(d.getMinutes()).padStart(2, '0');
+        const seconds = String(d.getSeconds()).padStart(2, '0');
+
+        return format
+            .replace("YYYY", String(year))
+            .replace("MM", month)
+            .replace("DD", day)
+            .replace("HH", hours)
+            .replace("mm", minutes)
+            .replace("ss", seconds);
+    } catch (error) {
+        console.error(error);
+        return "" as StringType;
+    }
+};
+
+// deepClone - Creates a deep copy of an object
+export const deepClone = <T>(obj: T): T => {
+    try {
+        if (obj === null || obj === undefined) return obj;
+        if (obj instanceof Date) return new Date(obj.getTime()) as unknown as T;
+        if (Array.isArray(obj)) return obj.map(item => deepClone(item)) as unknown as T;
+        if (typeof obj === "object" && obj !== null) {
+            // @ts-ignore - TS7053
+            const cloned: any = {};
+            for (const key of Object.keys(obj)) {
+                // @ts-ignore - TS7053
+                cloned[key] = deepClone(obj[key]);
+            }
+            return cloned as T;
+        }
+        return obj;
+    } catch (error) {
+        console.error(error);
+        return obj;
+    }
+};
+
+// debounce - Creates a debounced function that delays invocation
+export const debounce = <F extends (...args: any[]) => any>(func: F, wait: number): ((...args: Parameters<F>) => void) => {
+    let timeout: ReturnType<typeof setTimeout>;
+    return function executedFunction(...args: Parameters<F>) {
+        const later = () => {
+            func(...args);
+        };
+        clearTimeout(timeout!);
+        timeout = setTimeout(later, wait);
+    };
+};
+
+// formatDateRelative - Formats a date as a relative string (e.g., "2 hours ago")
+export const formatDateRelative = (date: Date | string | number): StringType => {
+    try {
+        const d = new Date(date);
+        if (isNaN(d.getTime())) return "" as StringType;
+
+        const seconds = Math.floor((new Date().getTime() - d.getTime()) / 1000);
+        let interval = seconds / 60;
+
+        if (interval < 1) return "just now";
+        if (interval < 1.5) return "a minute ago";
+        if (interval < 45) return Math.floor(interval) + " minutes ago";
+        if (interval < 90) return "an hour ago";
+        if (interval < 1440) return Math.floor(interval / 60) + " hours ago";
+        if (interval < 2880) return Math.floor(interval / 1440) + " days ago";
+        if (interval < 43200) return Math.floor(interval / 1440 / 30) + " months ago";
+        return Math.floor(interval / 1440 / 365) + " years ago";
+    } catch (error) {
+        console.error(error);
+        return "" as StringType;
+    }
+};
+
 export const groupBy = (arr: AnyType, key: StringType) => {
     try {
         if (!arr)

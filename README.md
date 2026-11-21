@@ -33,6 +33,22 @@ yarn add dhavaltank-js-utils
 <li><strong>isFalsy</strong></li>
 <li><strong>isTruthy</strong></li>
 <li><strong>groupBy</strong></li>
+<li><strong>capitalizeEveryWord</strong></li>
+<li><strong>camelCase</strong></li>
+<li><strong>pascalCase</strong></li>
+<li><strong>truncate</strong></li>
+<li><strong>formatDate</strong></li>
+<li><strong>deepClone</strong></li>
+<li><strong>debounce</strong></li>
+<li><strong>formatDateRelative</strong></li>
+<li><strong>capitalizeEveryWord</strong></li>
+<li><strong>camelCase</strong></li>
+<li><strong>pascalCase</strong></li>
+<li><strong>truncate</strong></li>
+<li><strong>formatDate</strong></li>
+<li><strong>deepClone</strong></li>
+<li><strong>debounce</strong></li>
+<li><strong>formatDateRelative</strong></li>
 </ol>
 <h1 id="documentation">Documentation</h1>
 <h2 id="capitalizefirstletter-function">capitalizeFirstLetter(str)</h2>
@@ -395,7 +411,123 @@ const exampleData = [
 ];
 groupBy(exampleData, 'category'); // { A: [{ id: 1, category: 'A', value: 42 }, { id: 3, category: 'A', value: 78 }], B: [{ id: 2, category: 'B', value: 65 }] }
 </code></pre>
-<h2 id="authors">Authors</h2>
+
+<h2 id="capitalizeeveryword-function">capitalizeEveryWord(str)</h2>
+<p><strong>Function Description:</strong> </p>
+<p>The capitalizeEveryWord function takes a string as input and returns a new string with the first letter of each word capitalized.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>str (string): The input string to be capitalized.</li>
+</ul>
+<p><strong>Return Value</strong></p>
+<p>Returns a new string with the first letter of each word capitalized.</p>
+<pre><code>import { capitalizeEveryWord } from "dhavaltank-js-utils";
+capitalizeEveryWord("hello world"); // 'Hello World'
+capitalizeEveryWord("javascript utility package"); // 'JavaScript Utility Package'
+</code></pre>
+
+<h2 id="camelcase-function">camelCase(str)</h2>
+<p><strong>Function Description:</strong> </p>
+<p>The camelCase function converts a string to camelCase format, where the first word is lowercase and the first letter of each subsequent word is capitalized.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>str (string): The input string to be converted to camelCase.</li>
+</ul>
+<p><strong>Return Value</strong></p>
+<p>Returns the input string converted to camelCase.</p>
+<pre><code>import { camelCase } from "dhavaltank-js-utils";
+camelCase("hello world"); // 'helloWorld'
+camelCase("javascript utility package"); // 'javascriptUtilityPackage'
+</code></pre>
+
+<h2 id="pascalcase-function">pascalCase(str)</h2>
+<p><strong>Function Description:</strong> </p>
+<p>The pascalCase function converts a string to PascalCase format, where the first letter of each word is capitalized.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>str (string): The input string to be converted to PascalCase.</li>
+</ul>
+<p><strong>Return Value</strong></p>
+<p>Returns the input string converted to PascalCase.</p>
+<pre><code>import { pascalCase } from "dhavaltank-js-utils";
+pascalCase("hello world"); // 'HelloWorld'
+pascalCase("javascript utility package"); // 'JavascriptUtilityPackage'
+</code></pre>
+
+<h2 id="truncate-function">truncate(str, maxLength)</h2>
+<p><strong>Function Description:</strong> </p>
+<p>The truncate function truncates a string to a specified maximum length and appends an ellipsis ("...") if the original string length exceeds the specified maximum length.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>str (string): The input string that may need truncation.</li>
+<li>maxLength (number, optional): The maximum length to which the input string should be truncated. Defaults to 20 if not provided.</li>
+</ul>
+<p><strong>Return Value</strong></p>
+<p>The function returns the truncated string, followed by an ellipsis if the original string length exceeds the specified maximum length. If the input string is empty or falsy, an empty string is returned.</p>
+<pre><code>import { truncate } from "dhavaltank-js-utils";
+truncate("Hello World User"); // 'Hello World U...'
+truncate("Hello World User", 5); // 'Hello...'
+</code></pre>
+
+<h2 id="formatdate-function">formatDate(date, format)</h2>
+<p><strong>Function Description:</strong> </p>
+<p>The formatDate function formats a date object to a readable string with a specified format.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>date (Date | string | number): The date to be formatted.</li>
+<li>format (string, optional): The format string with placeholders YYYY, MM, DD, HH, mm, ss. Defaults to "YYYY-MM-DD" if not provided.</li>
+</ul>
+<p><strong>Return Value</strong></p>
+<p>Returns the formatted date string.</p>
+<pre><code>import { formatDate } from "dhavaltank-js-utils";
+formatDate(new Date()); // '2024-01-15' (example output)
+formatDate("2024-01-15T10:30:00", "YYYY/MM/DD"); // '2024/01/15'
+</code></pre>
+
+<h2 id="deepclone-function">deepClone(obj)</h2>
+<p><strong>Function Description:</strong> </p>
+<p>The deepClone function creates a deep copy of an object, including nested objects and arrays.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>obj (required): The input object to be deep cloned.</li>
+</ul>
+<p><strong>Return Value</strong></p>
+<p>Returns a new object that is a deep copy of the input object.</p>
+<pre><code>import { deepClone } from "dhavaltank-js-utils";
+const original = { a: 1, b: { c: 2 }, d: [1, 2, 3] };
+const cloned = deepClone(original);
+cloned.b.c = 99;
+console.log(original.b.c); // 2 (original is unchanged)
+</code></pre>
+
+<h2 id="debounce-function">debounce(func, wait)</h2>
+<p><strong>Function Description:</strong> </p>
+<p>The debounce function creates a debounced function that delays invocation of the provided function until after a specified wait time has elapsed since the last time it was invoked.</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>func (function): The function to debounce.</li>
+<li>wait (number): The number of milliseconds to delay the function invocation.</li>
+</ul>
+<p><strong>Return Value</strong></p>
+<p>Returns a new debounced function.</p>
+<pre><code>import { debounce } from "dhavaltank-js-utils";
+const handleResize = debounce(() => { console.log("window resized"); }, 300);
+window.addEventListener("resize", handleResize);
+</code></pre>
+
+<h2 id="formatdaterelative-function">formatDateRelative(date)</h2>
+<p><strong>Function Description:</strong> </p>
+<p>The formatDateRelative function formats a date as a relative string (e.g., "just now", "2 hours ago", "3 days ago").</p>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>date (Date | string | number): The date to be formatted as a relative string.</li>
+</ul>
+<p><strong>Return Value</strong></p>
+<p>Returns a relative time string representing how long ago the date was.</p>
+<pre><code>import { formatDateRelative } from "dhavaltank-js-utils";
+formatDateRelative(new Date()); // 'just now' (if called immediately)
+formatDateRelative(new Date(Date.now() - 2 * 60 * 60 * 1000)); // '2 hours ago'
+</code></pre><h2 id="authors">Authors</h2>
 <ul>
 <li><a href="https://www.github.com/dhavaltank01">Dhaval Tank</a></li>
 </ul>
