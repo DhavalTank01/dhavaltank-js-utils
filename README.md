@@ -53,16 +53,17 @@ yarn add dhavaltank-js-utils
 <h1 id="documentation">Documentation</h1>
 <h2 id="capitalizefirstletter-function">capitalizeFirstLetter(str)</h2>
 <p><strong>Function Description:</strong> </p>
-<p>The capitalizeFirstLetter function takes a string as input and returns a new string with the first letter capitalized.</p>
+<p>The capitalizeFirstLetter function capitalizes the first letter of a string. It trims whitespace from the input and handles edge cases like empty strings.</p>
 <p><strong>Parameters</strong></p>
 <ul>
-<li>str (string): The input string to be capitalized.</li>
+<li>str (string, nullable): The input string to be capitalized. Can be null or empty.</li>
 </ul>
 <p><strong>Return Value</strong></p>
-<p>Returns a new string with the first letter capitalized.</p>
-<pre><code>import { capitalizeFirstLetter } from &quot;dhavaltank-js-utils&quot;;
-capitalizeFirstLetter(&quot;hello world&quot;); // &#39;Hello world&#39;
-</code></pre>
+<p>Returns a new string with the first letter capitalized. Returns null if input is null, empty string if input is empty/whitespace-only.</p>
+<pre><code>import { capitalizeFirstLetter } from "dhavaltank-js-utils";
+capitalizeFirstLetter("hello world"); // 8216;Hello world8217;
+capitalizeFirstLetter(null); // null
+capitalizeFirstLetter(&quot&quot); // 8216;8217;
 <h2 id="titlecasestr"><strong>titleCase(str)</strong></h2>
 <p><strong>Function Description:</strong> </p>
 <p>The titleCase function takes a string (str) and an optional key (key) as parameters. The purpose of this function is to convert the input string into a title case, where the first letter of each word is capitalized. Additionally, the function allows for a special case where if the key parameter is set to &quot;And,&quot; it replaces the occurrence of the word &quot;And&quot; with the ampersand &quot;&amp;&quot; in the final title case string.</p>
