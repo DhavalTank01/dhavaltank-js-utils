@@ -8,7 +8,11 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup",
-    "test": "vitest run"
+    "test": "vitest run",
+    "publish": "bun run build && bun publish",
+    "patch": "bun run build && npm version patch && npm publish",
+    "minor": "bun run build && npm version minor && npm publish",
+    "major": "bun run build && npm version major && npm publish"
   },
   "keywords": [
     "utils",
